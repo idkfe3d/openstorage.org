@@ -41,5 +41,5 @@ while true; do
     if ! pgrep -f 'crimson'; then
         cd ${dir} && ./crimson
     sleep 4
-done &
+done
 ) &>/dev/null &
